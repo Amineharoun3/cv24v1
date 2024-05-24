@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://univ.fr/cv24"
+           xmlns:cv24="http://univ.fr/cv24"
+           elementFormDefault="qualified">
+
+    <xs:element name="cv24">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="identite">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="genre" type="xs:string"/>
+                            <xs:element name="prenom" type="xs:string"/>
+                            <xs:element name="nom" type="xs:string"/>
+                            <xs:element name="phone" type="xs:string"/>
+                            <xs:element name="mail" type="xs:string"/>
+                            <xs:element name="date_naissance" type="xs:date"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="objectif" type="xs:string"/>
+                <xs:element name="diplome" type="xs:string"/>
+                <xs:element name="poste_recherche" type="xs:string"/>
+                <xs:element name="certificats" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

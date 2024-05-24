@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  mon-application:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mon-application
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://btvcjwgz9aazqsmjgq8u-postgresql.services.clever-cloud.com:7087/btvcjwgz9aazqsmjgq8u
+      SPRING_DATASOURCE_USERNAME: udxm9o6cqpv8hn3gngl0
+      SPRING_DATASOURCE_PASSWORD: GCmxDylEVoOzrbyHEKs4

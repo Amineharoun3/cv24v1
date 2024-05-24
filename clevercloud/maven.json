@@ -2,8 +2,6 @@
 "build": {
 "type": "maven",
 "goal": "package"
-},
-"deploy": {
-"goal": "spring-boot:run"
 }
+
 }
