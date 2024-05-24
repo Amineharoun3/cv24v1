@@ -1,17 +1,16 @@
 package fr.univrouen.cv24.repositories;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement(name = "cv24")
 @Table(name = "cv24")
-public class CV24 {
+public class dao {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String genre;
     private String nom;

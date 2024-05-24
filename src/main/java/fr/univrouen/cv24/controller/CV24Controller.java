@@ -1,6 +1,6 @@
 package fr.univrouen.cv24.controller;
 
-import fr.univrouen.cv24.repositories.CV24;
+import fr.univrouen.cv24.repositories.dao;
 import fr.univrouen.cv24.services.CV24Service;
 import fr.univrouen.cv24.repositories.Cv24Repository;
 import fr.univrouen.cv24.services.XmlValidationService;
@@ -37,9 +37,9 @@ public class CV24Controller{
 
     // Method from CV24Controller to add a new CV
     @PostMapping("/insert_normal")
-    public ResponseEntity<String> addNewCV(@RequestBody CV24 cv) {
+    public ResponseEntity<String> addNewCV(@RequestBody dao cv) {
         try {
-            CV24 newCV = service.addNewCV(cv);
+            dao newCV = service.addNewCV(cv);
             String response = buildResponse(newCV);
             return ResponseEntity.ok().body(response);
         } catch (IllegalArgumentException e) {
@@ -53,7 +53,7 @@ public class CV24Controller{
                 return ResponseEntity.badRequest().body("Invalid XML according to XSD");
             }
 
-            CV24 cv = convertXmlToCv24(file.getInputStream());
+            dao cv = convertXmlToCv24(file.getInputStream());
 
             if (service.addNewCV(cv) != null) {
                 return ResponseEntity.ok("CV added successfully with ID: " + cv.getId());
@@ -65,11 +65,11 @@ public class CV24Controller{
         }
     }
 
-    private CV24 convertXmlToCv24(InputStream xmlStream) {
+    private dao convertXmlToCv24(InputStream xmlStream) {
         try {
-            JAXBContext context = JAXBContext.newInstance(CV24.class);
+            JAXBContext context = JAXBContext.newInstance(dao.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            JAXBElement<CV24> jaxbElement = unmarshaller.unmarshal(new StreamSource(xmlStream), CV24.class);
+            JAXBElement<dao> jaxbElement = unmarshaller.unmarshal(new StreamSource(xmlStream), dao.class);
             return jaxbElement.getValue();
         } catch (JAXBException e) {
             throw new RuntimeException("Error during XML deserialization", e);
@@ -95,9 +95,9 @@ public class CV24Controller{
 
     // Method from CV24Controller to update an existing CV
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> update(@PathVariable Integer id, @RequestBody CV24 updatedCV) {
+    public ResponseEntity<String> update(@PathVariable Integer id, @RequestBody dao updatedCV) {
         try {
-            CV24 updated = service.updateCV(id, updatedCV);
+            dao updated = service.updateCV(id, updatedCV);
             if (updated == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("<status>ERROR</status><detail>CV not found</detail>");
             }
@@ -112,7 +112,7 @@ public class CV24Controller{
     @GetMapping("/resume/xml")
     @ResponseBody
     public CVList getCVsAsXML() {
-        List<CV24> cvs = repository.findAll();
+        List<dao> cvs = repository.findAll();
         return new CVList(cvs);
     }
 
@@ -120,7 +120,7 @@ public class CV24Controller{
     @GetMapping("/resume")
     @ResponseBody
     public String getCVsAsHTML() {
-        List<CV24> cvs = repository.findAll();
+        List<dao> cvs = repository.findAll();
         StringBuilder htmlBuilder = new StringBuilder();
 
         htmlBuilder.append("<!DOCTYPE html>")
@@ -142,7 +142,7 @@ public class CV24Controller{
                 .append("<th>Objectif</th><th>Diplôme</th>")
                 .append("</tr></thead><tbody>");
 
-        for (CV24 cv : cvs) {
+        for (dao cv : cvs) {
             htmlBuilder.append("<tr>")
                     .append("<td>").append(cv.getId()).append("</td>")
                     .append("<td>").append(cv.getGenre()).append("</td>")
@@ -158,7 +158,7 @@ public class CV24Controller{
     }
 
     // Helper method to build response for a new CV
-    private String buildResponse(CV24 newCV) {
+    private String buildResponse(dao newCV) {
         return "<id>" + newCV.getId() + "</id>"
                 + "<genre>" + newCV.getGenre() + "</genre>"
                 + "<firstName>" + newCV.getNom() + "</firstName>"
@@ -168,17 +168,17 @@ public class CV24Controller{
 
     // Nested class to handle a list of CVs
     public static class CVList {
-        private List<CV24> cvs;
+        private List<dao> cvs;
 
-        public CVList(List<CV24> cvs) {
+        public CVList(List<dao> cvs) {
             this.cvs = cvs;
         }
 
-        public List<CV24> getCvs() {
+        public List<dao> getCvs() {
             return cvs;
         }
 
-        public void setCvs(List<CV24> cvs) {
+        public void setCvs(List<dao> cvs) {
             this.cvs = cvs;
         }
     }

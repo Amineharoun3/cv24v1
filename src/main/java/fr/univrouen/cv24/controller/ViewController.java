@@ -1,6 +1,6 @@
 package fr.univrouen.cv24.controller;
 
-import fr.univrouen.cv24.repositories.CV24;
+import fr.univrouen.cv24.repositories.dao;
 import fr.univrouen.cv24.repositories.Cv24Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class ViewController {
     @GetMapping("/xml")
     @ResponseBody
     public ResponseEntity<?> fetchCVInXMLFormat(@RequestParam("id") Long id) {
-        CV24 cv = cv24Repository.findCVById(id);
+        dao cv = cv24Repository.findCVById(id);
         if (cv != null) {
             return ResponseEntity.ok(cv);
         } else {
@@ -37,58 +37,63 @@ public class ViewController {
         }
     }
 
- @GetMapping("/html")
-@ResponseBody
-public String getCVAsHTML(@RequestParam("id") Long id, Model model) {
-    CV24 cv = cv24Repository.findCVById(id);
-    if (cv != null) {
-        return generateHTMLForCV(cv);
-    } else {
-        return generateErrorHTML(id);
+    @GetMapping("/html")
+    @ResponseBody
+    public String getCVAsHTML(@RequestParam("id") Long id, Model model) {
+        dao cv = cv24Repository.findCVById(id);
+        if (cv != null) {
+            return generateHTMLForCV(cv);
+        } else {
+            return generateErrorHTML(id);
+        }
     }
-}
 
-private String generateHTMLForCV(CV24 cv) {
-    StringBuilder htmlBuilder = new StringBuilder();
-    htmlBuilder.append("<!DOCTYPE html>\n");
-    htmlBuilder.append("<html>\n");
-    htmlBuilder.append("<head>\n");
-    htmlBuilder.append("<meta charset=\"UTF-8\">\n");
-    htmlBuilder.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n");
-    htmlBuilder.append("<title>Details du CV </title>\n");
-    htmlBuilder.append("</head>\n");
-    htmlBuilder.append("<body>\n");
-    htmlBuilder.append("<h1>CV Details</h1>\n");
-    htmlBuilder.append("<div>\n");
-    htmlBuilder.append("<p>Id: ").append(cv.getId()).append("</p>\n");
-    htmlBuilder.append("<p>Genre: ").append(cv.getGenre()).append("</p>\n");
-    htmlBuilder.append("<p>Prénom: ").append(cv.getPrenom()).append("</p>\n");
-    htmlBuilder.append("<p>Nom: ").append(cv.getNom()).append("</p>\n");
-   htmlBuilder.append("<p>Date naissance : ").append(cv.getDateNaissance()).append("</p>\n");
-    htmlBuilder.append("<p>Objectif: ").append(cv.getObjectif()).append("</p>\n");
-    htmlBuilder.append("<p>Diplôme: ").append(cv.getDiplome()).append("</p>\n");
-htmlBuilder.append("<p>Poste recherhé: ").append(cv.getPosteRecherche()).append("</p>\n");
-    htmlBuilder.append("<p>Certifiact: ").append(cv.getCertificats()).append("</p>\n");
-    // Ajoutez d'autres champs si nécessaire
-    htmlBuilder.append("</div>\n");
-    htmlBuilder.append("</body>\n");
-    htmlBuilder.append("</html>\n");
-    return htmlBuilder.toString();
-}
+    private String generateHTMLForCV(dao cv) {
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append("<!DOCTYPE html>\n")
+                .append("<html>\n")
+                .append("<head>\n")
+                .append("<meta charset=\"UTF-8\">\n")
+                .append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n")
+                .append("<title>Détails du CV</title>\n")
+                .append("<style>\n")
+                .append("body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }\n")
+                .append(".cv-card { background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 20px; margin: 20px auto; width: fit-content; }\n")
+                .append("h1 { color: #333; }\n")
+                .append("p { margin: 10px 0; }\n")
+                .append("</style>\n")
+                .append("</head>\n")
+                .append("<body>\n")
+                .append("<div class='cv-card'>\n")
+                .append("<h1>Détails du CV</h1>\n")
+                .append("<p><strong>ID:</strong> ").append(cv.getId()).append("</p>\n")
+                .append("<p><strong>Genre:</strong> ").append(cv.getGenre()).append("</p>\n")
+                .append("<p><strong>Prénom:</strong> ").append(cv.getPrenom()).append("</p>\n")
+                .append("<p><strong>Nom:</strong> ").append(cv.getNom()).append("</p>\n")
+                .append("<p><strong>Date de naissance:</strong> ").append(cv.getDateNaissance()).append("</p>\n")
+                .append("<p><strong>Objectif:</strong> ").append(cv.getObjectif()).append("</p>\n")
+                .append("<p><strong>Diplôme:</strong> ").append(cv.getDiplome()).append("</p>\n")
+                .append("<p><strong>Poste recherché:</strong> ").append(cv.getPosteRecherche()).append("</p>\n")
+                .append("<p><strong>Certificats:</strong> ").append(cv.getCertificats()).append("</p>\n")
+                .append("</div>\n")
+                .append("</body>\n")
+                .append("</html>\n");
+        return htmlBuilder.toString();
+    }
 
-private String generateErrorHTML(Long id) {
-    StringBuilder htmlBuilder = new StringBuilder();
-    htmlBuilder.append("<!DOCTYPE html>\n");
-    htmlBuilder.append("<html>\n");
-    htmlBuilder.append("<head>\n");
-    htmlBuilder.append("<title>Error</title>\n");
-    htmlBuilder.append("</head>\n");
-    htmlBuilder.append("<body>\n");
-    htmlBuilder.append("<h1>Error</h1>\n");
-    htmlBuilder.append("<p>CV with ID ").append(id).append(" not found.</p>\n");
-    htmlBuilder.append("</body>\n");
-    htmlBuilder.append("</html>\n");
-    return htmlBuilder.toString();
-}
+    private String generateErrorHTML(Long id) {
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append("<!DOCTYPE html>\n")
+                .append("<html>\n")
+                .append("<head>\n")
+                .append("<title>Error</title>\n")
+                .append("</head>\n")
+                .append("<body>\n")
+                .append("<h1>Erreur</h1>\n")
+                .append("<p>Le CV avec l'ID ").append(id).append(" n'a pas été trouvé.</p>\n")
+                .append("</body>\n")
+                .append("</html>\n");
+        return htmlBuilder.toString();
+    }
 
 }

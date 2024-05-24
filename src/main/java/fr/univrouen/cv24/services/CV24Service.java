@@ -1,6 +1,6 @@
 package fr.univrouen.cv24.services;
 
-import fr.univrouen.cv24.repositories.CV24;
+import fr.univrouen.cv24.repositories.dao;
 import fr.univrouen.cv24.repositories.Cv24Repository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class CV24Service {
         this.cv24Repository = cv24Repository;
     }
 
-    public CV24 addNewCV(CV24 cv){
+    public dao addNewCV(dao cv){
         if(cv24Exists(cv)){
             throw new IllegalArgumentException("Valeur invalide");
         }
@@ -25,21 +25,21 @@ public class CV24Service {
         cv24Repository.deleteById(id);
     }
 
-    public CV24 updateCV(Integer id, CV24 updatedCV) {
+    public dao updateCV(Integer id, dao updatedCV) {
         return cv24Repository.findById(id)
                 .map(existingCV -> updateExistingCV(existingCV, updatedCV))
                 .orElse(null);
     }
 
-    public List<CV24> getCVs(){
+    public List<dao> getCVs(){
         return cv24Repository.findAll();
     }
 
-    private boolean cv24Exists(CV24 cv) {
+    private boolean cv24Exists(dao cv) {
         return cv24Repository.existsByGenreAndNomAndPrenomAndPhone(cv.getGenre(), cv.getNom(), cv.getPrenom(), cv.getPhone());
     }
 
-    private CV24 updateExistingCV(CV24 existingCV, CV24 updatedCV) {
+    private dao updateExistingCV(dao existingCV, dao updatedCV) {
         existingCV.setGenre(updatedCV.getGenre());
         existingCV.setNom(updatedCV.getNom());
         existingCV.setPrenom(updatedCV.getPrenom());
