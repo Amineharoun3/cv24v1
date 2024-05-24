@@ -7,4 +7,4 @@ COPY target/cv24database.war /cv24database.jar
 ENTRYPOINT ["java", "-jar", "cv24database.jar"]
 
 # Exposer le port sur lequel l'application sera accessible
-EXPOSE 8081
+EXPOSE 8080
