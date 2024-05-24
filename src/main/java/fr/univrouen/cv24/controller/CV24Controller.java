@@ -1,6 +1,6 @@
 package fr.univrouen.cv24.controller;
 
-import fr.univrouen.cv24.dao.CV24;
+import fr.univrouen.cv24.repositories.CV24;
 import fr.univrouen.cv24.services.CV24Service;
 import fr.univrouen.cv24.repositories.Cv24Repository;
 import fr.univrouen.cv24.services.XmlValidationService;
@@ -11,7 +11,6 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -127,7 +126,7 @@ public class CV24Controller{
         htmlBuilder.append("<!DOCTYPE html>")
                 .append("<html><head><meta charset=\"UTF-8\">")
                 .append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">")
-                .append("<title>Liste des CV</title>")
+                .append("<title>Visualisation des CV</title>")
                 .append("<style>")
                 .append("body { font-family: Arial, sans-serif; background-color: #f0f0f0; padding: 20px; }")
                 .append("h1 { text-align: center; }")

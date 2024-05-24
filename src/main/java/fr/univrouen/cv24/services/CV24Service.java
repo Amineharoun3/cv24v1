@@ -1,8 +1,7 @@
 package fr.univrouen.cv24.services;
 
-import fr.univrouen.cv24.dao.CV24;
+import fr.univrouen.cv24.repositories.CV24;
 import fr.univrouen.cv24.repositories.Cv24Repository;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

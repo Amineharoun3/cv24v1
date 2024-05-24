@@ -1,4 +1,4 @@
-package fr.univrouen.cv24.dao;
+package fr.univrouen.cv24.repositories;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
